@@ -1,4 +1,3 @@
-import { Deferred, deferred } from "https://deno.land/std@0.184.0/async/mod.ts";
 import { AlreadyReservedError, NoReservationError } from "./errors.ts";
 
 /**
@@ -8,7 +7,7 @@ import { AlreadyReservedError, NoReservationError } from "./errors.ts";
  * @template V The type of the value.
  */
 export class Reservator<K, V> {
-  #map: Map<K, Deferred<V>>;
+  #map: Map<K, { resolve: (v: V) => void; reject: (v: unknown) => void }>;
 
   /** Constructs a new Reservator instance. */
   constructor() {
@@ -39,10 +38,10 @@ export class Reservator<K, V> {
         key,
       );
     }
-    const v = deferred<V>();
-    this.#map.set(key, v);
+    const { promise, resolve, reject } = Promise.withResolvers<V>();
+    this.#map.set(key, { resolve, reject });
     return new Promise((resolve, reject) => {
-      v.then(resolve, reject);
+      promise.then(resolve, reject);
     });
   }
 

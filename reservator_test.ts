@@ -1,9 +1,5 @@
-import {
-  assertEquals,
-  assertRejects,
-  assertThrows,
-} from "https://deno.land/std@0.184.0/testing/asserts.ts";
-import { promiseState } from "https://deno.land/x/async@v1.2.0/mod.ts";
+import { assertEquals, assertRejects, assertThrows } from "@std/assert";
+import { promiseState } from "@lambdalisue/async";
 import { Reservator } from "./reservator.ts";
 import { AlreadyReservedError, NoReservationError } from "./errors.ts";
 
