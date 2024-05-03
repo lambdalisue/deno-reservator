@@ -49,13 +49,13 @@ async function main(): Promise<void> {
 
   const reservator = new Reservator();
 
-  const consumer = (reservator () => {
+  const consumer = (async () => {
     // Reserve `key` and wait
     const received = await reservator.reserve(key);
     console.log(`Received: ${received}`);
   })();
 
-  const producer = (reservator () => {
+  const producer = (async () => {
     // Wait 3 seconds
     await delay(3000);
     // Resolve with the key
